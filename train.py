@@ -11,6 +11,7 @@ from qwen_vl_utils import process_vision_info
 import torch
 from PIL import Image
 from model_reranker import Qwen2_5Reranker
+from collator import RerankerCollatorVLM
 
 wandb.login(key="API_KEY")
 
