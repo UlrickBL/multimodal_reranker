@@ -14,7 +14,6 @@ class RerankerCollatorVLM:
         queries = []
         images = []
         labels = []
-        target_classification_tokens = []
         prepared_image_list = [torchvision.transforms.functional.to_pil_image(item["image"]) for item in batch]
       
         # Mine negatives

@@ -1,4 +1,4 @@
-from gme_qwen_2_vl import GmeQwen2VL
+from multimodal_reranker.dataset.gme_qwen_2_vl import GmeQwen2VL
 from itertools import islice
 from PIL import Image
 from datasets import load_dataset, Dataset

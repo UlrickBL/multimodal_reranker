@@ -1,17 +1,14 @@
 from transformers import Trainer, TrainingArguments
 import torch.nn.functional as F
-from torch.utils.data import DataLoader
 import wandb
 import os
 from transformers import TrainerCallback
-import torch
 from PIL import Image
-from transformers import Qwen2_5_VLForConditionalGeneration, AutoTokenizer, AutoProcessor
-from qwen_vl_utils import process_vision_info
-import torch
+from transformers import Qwen2_5_VLForConditionalGeneration, AutoProcessor
 from PIL import Image
-from model_reranker import Qwen2_5Reranker
-from collator import RerankerCollatorVLM
+from multimodal_reranker.model.qwen_25_reranker import Qwen2_5Reranker
+from multimodal_reranker.training_qwen_25_reranker.collator_in_batch import RerankerCollatorVLM
+from datasets import load_dataset
 
 wandb.login(key="API_KEY")
 
@@ -42,7 +39,6 @@ def compute_loss(outputs, labels,num_items_in_batch):
 
 if name=="__main__" :
   ### MODEL ####
-  
   model_qwen = Qwen2_5_VLForConditionalGeneration.from_pretrained(
       "Qwen/Qwen2.5-VL-3B-Instruct", torch_dtype="auto", device_map="auto", output_hidden_states=True,
   ).train()
@@ -56,7 +52,6 @@ if name=="__main__" :
   model.train()
 
   ### DATASET ###
-  from datasets import load_dataset
   ds = load_dataset("UlrickBL/vidore-subset-train-2000", split="train",streaming=True).with_format("torch")
   collator = RerankerCollatorVLM(processor, num_negatives=num_negatives)
 
